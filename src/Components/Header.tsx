@@ -101,7 +101,7 @@ const logoVars = {
 }
 
 const navVars = {
-	top: { backgroundColor: 'rgba(0,0,0,0)' },
+	top: { backgroundColor: 'rgba(0,0,0,0.1)' },
 	scroll: { backgroundColor: 'rgba(0,0,0,1)' }
 }
 
@@ -112,6 +112,7 @@ interface IForm {
 function Header() {
 	const [searchOpen, setSearchOpen] = useState(false)
 	const homeMatch = useRouteMatch('/')
+	const baseMatch = useRouteMatch('/netflix-clone')
 	const tvMatch = useRouteMatch('/tv')
 	const inputAnimation = useAnimation()
 	const navAnimation = useAnimation()
@@ -159,7 +160,7 @@ function Header() {
 				<Items>
 					<Item>
 						<Link to="/">
-							Home {homeMatch?.isExact && <Circle layoutId="circle" />}
+							Home {(homeMatch?.isExact || baseMatch) && <Circle layoutId="circle" />}
 						</Link>
 					</Item>
 					<Item>
