@@ -68,6 +68,10 @@ const BigMovie = styled(motion.div)`
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		display: none;
+	}
 `
 
 const BigCover = styled.div`
@@ -89,6 +93,10 @@ const BigOverview = styled.div`
 	top: -80px;
 	padding: 20px;
 	color: ${(props) => props.theme.white.lighter};
+`
+
+const Info = styled.div`
+	height: 50%;
 `
 
 const Home = () => {
@@ -190,8 +198,10 @@ const Home = () => {
 													)})`
 												}}
 											/>
-											<BigTitle>{clickedMovie.title}</BigTitle>
-											<BigOverview>{clickedMovie.overview}</BigOverview>
+											<Info>
+												<BigTitle>{clickedMovie.title}</BigTitle>
+												<BigOverview>{clickedMovie.overview}</BigOverview>
+											</Info>
 										</>
 									)}
 								</BigMovie>

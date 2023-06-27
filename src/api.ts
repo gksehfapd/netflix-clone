@@ -37,3 +37,7 @@ export const getTopRatedMovies = () => {
 export const getUpcomingMovies = () => {
 	return fetch(`${BASE_PATH}/movie/upcoming?api_key=${API_KEY}`).then((res) => res.json())
 }
+
+export const getMovieCast = (id: number) => {
+	return fetch(`${BASE_PATH}/movie/${id}/credits?api_key=${API_KEY}`).then((res) => res.json())
+}

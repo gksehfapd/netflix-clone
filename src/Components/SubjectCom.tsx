@@ -240,7 +240,7 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 		}
 	}
 
-	const onBoxClicked = (movieId: number, subName: string) => {
+	const onBoxClicked = async (movieId: number, subName: string) => {
 		setEventSub(subName)
 		history.push(`/movies/${movieId}`)
 	}
@@ -287,7 +287,7 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 									<Info variants={infoVars}>
 										<h4>Grade : {movie.vote_average}</h4>
 										<h4>
-											Genres :
+											Genres :{' '}
 											{movie.genre_ids.map(
 												(e) =>
 													genres.find((genre) => genre.id === e)?.name +
