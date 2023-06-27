@@ -14,7 +14,6 @@ const SubjectDiv = styled.div`
 `
 
 const Slider = styled.div`
-	top: -100px;
 	display: flex;
 	justify-content: space-between;
 `
@@ -28,8 +27,7 @@ const SubjectTitle = styled.div`
 `
 
 const ArrowBtn = styled(motion.div)`
-	z-index: 10;
-	height: 132px;
+	height: 250px;
 	width: 5%;
 	display: flex;
 	justify-content: center;
@@ -49,7 +47,7 @@ const Row = styled(motion.div)`
 
 const Box = styled(motion.div)<{ bgphoto: string }>`
 	background-color: white;
-	height: 132px;
+	height: 250px;
 	font-size: 64px;
 	background-image: url(${(props) => props.bgphoto});
 	background-size: cover;
@@ -71,8 +69,8 @@ const Info = styled(motion.div)`
 	width: 100%;
 	bottom: 0;
 	h4 {
-		text-align: center;
-		font-size: 18px;
+		/* text-align: center; */
+		font-size: 8px;
 	}
 `
 
@@ -81,7 +79,7 @@ const boxVars = {
 		scale: 1
 	},
 	hover: {
-		scale: 1.3,
+		scale: 1.5,
 		y: -50,
 		transition: {
 			delay: 0.3,
@@ -103,7 +101,7 @@ const infoVars = {
 
 const btnVars = {
 	hover: {
-		scale: 1.3
+		scale: 1.5
 	}
 }
 
@@ -122,6 +120,85 @@ interface IProps {
 	title: string
 	data: IGetMovie
 }
+
+const genres = [
+	{
+		id: 28,
+		name: 'Action'
+	},
+	{
+		id: 12,
+		name: 'Adventure'
+	},
+	{
+		id: 16,
+		name: 'Animation'
+	},
+	{
+		id: 35,
+		name: 'Comedy'
+	},
+	{
+		id: 80,
+		name: 'Crime'
+	},
+	{
+		id: 99,
+		name: 'Documentary'
+	},
+	{
+		id: 18,
+		name: 'Drama'
+	},
+	{
+		id: 10751,
+		name: 'Family'
+	},
+	{
+		id: 14,
+		name: 'Fantasy'
+	},
+	{
+		id: 36,
+		name: 'History'
+	},
+	{
+		id: 27,
+		name: 'Horror'
+	},
+	{
+		id: 10402,
+		name: 'Music'
+	},
+	{
+		id: 9648,
+		name: 'Mystery'
+	},
+	{
+		id: 10749,
+		name: 'Romance'
+	},
+	{
+		id: 878,
+		name: 'Science Fiction'
+	},
+	{
+		id: 10770,
+		name: 'TV Movie'
+	},
+	{
+		id: 53,
+		name: 'Thriller'
+	},
+	{
+		id: 10752,
+		name: 'War'
+	},
+	{
+		id: 37,
+		name: 'Western'
+	}
+]
 
 const SubjectCom = ({ subject, title, data }: IProps) => {
 	const history = useHistory()
@@ -202,13 +279,21 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 									whileHover="hover"
 									initial="normal"
 									transition={{ type: 'tween' }}
-									bgphoto={makeImagePath(movie.backdrop_path, 'w500')}
+									bgphoto={makeImagePath(movie.poster_path)}
 									onClick={() => onBoxClicked(movie.id, `${subject}`)}
 									layoutId={`${subject}` + movie.id}
 								>
 									<img src="" alt="" />
 									<Info variants={infoVars}>
-										<h4>{movie.title}</h4>
+										<h4>Grade : {movie.vote_average}</h4>
+										<h4>
+											Genres :
+											{movie.genre_ids.map(
+												(e) =>
+													genres.find((genre) => genre.id === e)?.name +
+													' '
+											)}
+										</h4>
 									</Info>
 								</Box>
 							))}

@@ -134,7 +134,10 @@ const Home = () => {
 				<Loader>Loading..</Loader>
 			) : (
 				<>
-					<Banner bgphoto={makeImagePath(nowPlayingData?.results[0].backdrop_path || '')}>
+					<Banner
+						bgphoto={makeImagePath(nowPlayingData?.results[0].backdrop_path || '')}
+						onClick={() => console.log(allMovieData)}
+					>
 						<Title>{nowPlayingData?.results[0].title}</Title>
 						<Overview>{nowPlayingData?.results[0].overview}</Overview>
 					</Banner>
