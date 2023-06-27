@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { IGetMovie } from '../api'
-import { useQuery } from 'react-query'
+
 import { makeImagePath } from '../utils'
 import { useHistory } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
@@ -120,17 +120,16 @@ const offset = 6
 interface IProps {
 	subject: string
 	title: string
-	movieApi: () => Promise<any>
+	data: IGetMovie
 }
 
-const SubjectCom = (props: IProps) => {
+const SubjectCom = ({ subject, title, data }: IProps) => {
 	const history = useHistory()
 	const [nowPlayingIndex, setNowPlayingIndex] = useState(0)
 	const [back, setBack] = useState(false)
 	const [leaving, setLeaving] = useState(false)
 
 	const setEventSub = useSetRecoilState(atomEventSub)
-	const { data, isLoading } = useQuery<IGetMovie>(['movies', `${props.subject}`], props.movieApi)
 
 	const toggleLeaving = () => {
 		setLeaving((prev) => !prev)
@@ -171,75 +170,60 @@ const SubjectCom = (props: IProps) => {
 
 	return (
 		<SubjectDiv>
-			{isLoading ? (
-				<h1>Loading...</h1>
-			) : (
-				<>
-					<SubjectTitle>{props.title}</SubjectTitle>
-					<Slider>
-						<AnimatePresence
-							custom={back}
-							initial={false}
-							onExitComplete={toggleLeaving}
-						>
-							<ArrowBtn
-								onClick={() => {
-									if (data) increaseIndex(data, setNowPlayingIndex)
-								}}
-								variants={btnVars}
-								whileHover="hover"
-								key="leftArrow"
-							>
-								&lt;
-							</ArrowBtn>
-							<Row
-								variants={rowVars}
-								custom={back}
-								initial="hidden"
-								animate="visible"
-								exit="exit"
-								transition={{ type: 'tween', duration: 1 }}
-								key={`${props.subject}` + nowPlayingIndex}
-							>
-								{data?.results
-									.slice(1)
-									.slice(
-										offset * nowPlayingIndex,
-										offset * nowPlayingIndex + offset
-									)
-									.map((movie) => (
-										<Box
-											key={`${props.subject}` + movie.id}
-											variants={boxVars}
-											whileHover="hover"
-											initial="normal"
-											transition={{ type: 'tween' }}
-											bgphoto={makeImagePath(movie.backdrop_path, 'w500')}
-											onClick={() =>
-												onBoxClicked(movie.id, `${props.subject}`)
-											}
-											layoutId={`${props.subject}` + movie.id}
-										>
-											<img src="" alt="" />
-											<Info variants={infoVars}>
-												<h4>{movie.title}</h4>
-											</Info>
-										</Box>
-									))}
-							</Row>
-							<ArrowBtn
-								onClick={() => {
-									if (data) decreaseIndex(data, setNowPlayingIndex)
-								}}
-								variants={btnVars}
-								whileHover="hover"
-							>
-								&gt;
-							</ArrowBtn>
-						</AnimatePresence>
-					</Slider>
-				</>
-			)}
+			<SubjectTitle>{title}</SubjectTitle>
+			<Slider>
+				<AnimatePresence custom={back} initial={false} onExitComplete={toggleLeaving}>
+					<ArrowBtn
+						onClick={() => {
+							if (data) increaseIndex(data, setNowPlayingIndex)
+						}}
+						variants={btnVars}
+						whileHover="hover"
+						key="leftArrow"
+					>
+						&lt;
+					</ArrowBtn>
+					<Row
+						variants={rowVars}
+						custom={back}
+						initial="hidden"
+						animate="visible"
+						exit="exit"
+						transition={{ type: 'tween', duration: 1 }}
+						key={`${subject}` + nowPlayingIndex}
+					>
+						{data?.results
+							.slice(1)
+							.slice(offset * nowPlayingIndex, offset * nowPlayingIndex + offset)
+							.map((movie) => (
+								<Box
+									key={`${subject}` + movie.id}
+									variants={boxVars}
+									whileHover="hover"
+									initial="normal"
+									transition={{ type: 'tween' }}
+									bgphoto={makeImagePath(movie.backdrop_path, 'w500')}
+									onClick={() => onBoxClicked(movie.id, `${subject}`)}
+									layoutId={`${subject}` + movie.id}
+								>
+									<img src="" alt="" />
+									<Info variants={infoVars}>
+										<h4>{movie.title}</h4>
+									</Info>
+								</Box>
+							))}
+					</Row>
+					<ArrowBtn
+						onClick={() => {
+							if (data) decreaseIndex(data, setNowPlayingIndex)
+						}}
+						variants={btnVars}
+						whileHover="hover"
+					>
+						&gt;
+					</ArrowBtn>
+				</AnimatePresence>
+			</Slider>
 		</SubjectDiv>
 	)
 }

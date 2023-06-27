@@ -66,13 +66,15 @@ const BigMovie = styled(motion.div)`
 	background-color: ${(props) => props.theme.black.lighter};
 	border-radius: 12px;
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 `
 
 const BigCover = styled.div`
 	width: 100%;
 	background-size: cover;
 	background-position: center center;
-	height: 400px;
+	height: 50%;
 `
 
 const BigTitle = styled.h2`
@@ -81,7 +83,6 @@ const BigTitle = styled.h2`
 	text-align: center;
 	font-size: 36px;
 	position: relative;
-	top: -80px;
 `
 
 const BigOverview = styled.div`
@@ -110,7 +111,7 @@ const Home = () => {
 		getUpcomingMovies
 	)
 
-	const allData = [
+	const allMovieData = [
 		...(nowPlayingData?.results || []),
 		...(popularData?.results || []),
 		...(topRatedData?.results || []),
@@ -125,11 +126,11 @@ const Home = () => {
 
 	const clickedMovie =
 		bigMovieMatch?.params.movieId &&
-		allData?.find((movie) => String(movie.id) === bigMovieMatch.params.movieId)
+		allMovieData?.find((movie) => String(movie.id) === bigMovieMatch.params.movieId)
 
 	return (
 		<Wrapper>
-			{nowPlayingLoading && popularLoading && topRatedLoading && upcomingLoading ? (
+			{nowPlayingLoading ? (
 				<Loader>Loading..</Loader>
 			) : (
 				<>
@@ -138,14 +139,31 @@ const Home = () => {
 						<Overview>{nowPlayingData?.results[0].overview}</Overview>
 					</Banner>
 
-					<SubjectCom
-						subject="nowPlaying"
-						movieApi={getNowPlayingMovie}
-						title="Now Playing"
-					/>
-					<SubjectCom subject="popular" movieApi={getPopularMovies} title="Popular" />
-					<SubjectCom subject="topRated" movieApi={getTopRatedMovies} title="Top Rated" />
-					<SubjectCom subject="upcoming" movieApi={getUpcomingMovies} title="Upcoming" />
+					{nowPlayingData && !nowPlayingLoading ? (
+						<SubjectCom
+							subject="nowPlaying"
+							data={nowPlayingData}
+							title="Now Playing"
+						/>
+					) : (
+						<Loader>Loading..</Loader>
+					)}
+
+					{popularData && !popularLoading ? (
+						<SubjectCom subject="popular" data={popularData} title="Popular" />
+					) : (
+						<Loader>Loading..</Loader>
+					)}
+					{topRatedData && !topRatedLoading ? (
+						<SubjectCom subject="topRated" data={topRatedData} title="Top Rated" />
+					) : (
+						<Loader>Loading..</Loader>
+					)}
+					{upcomingData && !upcomingLoading ? (
+						<SubjectCom subject="upcoming" data={upcomingData} title="Upcoming" />
+					) : (
+						<Loader>Loading..</Loader>
+					)}
 
 					<AnimatePresence>
 						{bigMovieMatch ? (
