@@ -9,10 +9,9 @@ import {
 import styled from 'styled-components'
 import { makeImagePath } from '../utils'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
-import { useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import SubjectCom from '../Components/SubjectCom'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { atomEventSub } from '../atoms'
 
 const Wrapper = styled.div`
@@ -27,14 +26,14 @@ const Loader = styled.div`
 	align-items: center;
 `
 
-const Banner = styled.div<{ bgPhoto: string }>`
+const Banner = styled.div<{ bgphoto: string }>`
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	padding: 60px;
 	background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-		url(${(props) => props.bgPhoto});
+		url(${(props) => props.bgphoto});
 	background-size: cover;
 `
 
@@ -134,7 +133,7 @@ const Home = () => {
 				<Loader>Loading..</Loader>
 			) : (
 				<>
-					<Banner bgPhoto={makeImagePath(nowPlayingData?.results[0].backdrop_path || '')}>
+					<Banner bgphoto={makeImagePath(nowPlayingData?.results[0].backdrop_path || '')}>
 						<Title>{nowPlayingData?.results[0].title}</Title>
 						<Overview>{nowPlayingData?.results[0].overview}</Overview>
 					</Banner>

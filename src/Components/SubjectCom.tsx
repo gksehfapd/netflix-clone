@@ -47,11 +47,11 @@ const Row = styled(motion.div)`
 	left: 5%;
 `
 
-const Box = styled(motion.div)<{ bgPhoto: string }>`
+const Box = styled(motion.div)<{ bgphoto: string }>`
 	background-color: white;
 	height: 132px;
 	font-size: 64px;
-	background-image: url(${(props) => props.bgPhoto});
+	background-image: url(${(props) => props.bgphoto});
 	background-size: cover;
 	background-position: center center;
 	cursor: pointer;
@@ -188,6 +188,7 @@ const SubjectCom = (props: IProps) => {
 								}}
 								variants={btnVars}
 								whileHover="hover"
+								key="leftArrow"
 							>
 								&lt;
 							</ArrowBtn>
@@ -213,7 +214,7 @@ const SubjectCom = (props: IProps) => {
 											whileHover="hover"
 											initial="normal"
 											transition={{ type: 'tween' }}
-											bgPhoto={makeImagePath(movie.backdrop_path, 'w500')}
+											bgphoto={makeImagePath(movie.backdrop_path, 'w500')}
 											onClick={() =>
 												onBoxClicked(movie.id, `${props.subject}`)
 											}
