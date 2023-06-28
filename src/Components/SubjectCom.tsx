@@ -1,8 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import styled from 'styled-components'
-import { IGetMovie } from '../api'
-
+import { IGetData } from '../api'
 import { makeImagePath } from '../utils'
 import { useHistory } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
@@ -69,7 +68,6 @@ const Info = styled(motion.div)`
 	width: 100%;
 	bottom: 0;
 	h4 {
-		/* text-align: center; */
 		font-size: 8px;
 	}
 `
@@ -118,7 +116,7 @@ const offset = 6
 interface IProps {
 	subject: string
 	title: string
-	data: IGetMovie
+	data: IGetData
 }
 
 const genres = [
@@ -213,7 +211,7 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 	}
 
 	const increaseIndex = (
-		movieData: IGetMovie,
+		movieData: IGetData,
 		setIndex: React.Dispatch<React.SetStateAction<number>>
 	) => {
 		setBack(false)
@@ -227,7 +225,7 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 	}
 
 	const decreaseIndex = (
-		movieData: IGetMovie,
+		movieData: IGetData,
 		setIndex: React.Dispatch<React.SetStateAction<number>>
 	) => {
 		setBack(true)
@@ -240,9 +238,13 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 		}
 	}
 
-	const onBoxClicked = async (movieId: number, subName: string) => {
+	const onBoxClicked = async (dataId: number, subName: string) => {
 		setEventSub(subName)
-		history.push(`/movies/${movieId}`)
+		history.push(
+			`${
+				history.location.pathname === '/tv' ? history.location.pathname : '/movies'
+			}/${dataId}`
+		)
 	}
 
 	return (

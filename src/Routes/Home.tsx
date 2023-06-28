@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import {
-	IGetMovie,
+	IGetData,
 	getNowPlayingMovie,
 	getPopularMovies,
 	getTopRatedMovies,
@@ -102,19 +102,19 @@ const Info = styled.div`
 const Home = () => {
 	const history = useHistory()
 	const bigMovieMatch = useRouteMatch<{ movieId: string }>('/movies/:movieId')
-	const { data: nowPlayingData, isLoading: nowPlayingLoading } = useQuery<IGetMovie>(
+	const { data: nowPlayingData, isLoading: nowPlayingLoading } = useQuery<IGetData>(
 		['movies', 'nowPlaying'],
 		getNowPlayingMovie
 	)
-	const { data: popularData, isLoading: popularLoading } = useQuery<IGetMovie>(
+	const { data: popularData, isLoading: popularLoading } = useQuery<IGetData>(
 		['movies', 'popular'],
 		getPopularMovies
 	)
-	const { data: topRatedData, isLoading: topRatedLoading } = useQuery<IGetMovie>(
+	const { data: topRatedData, isLoading: topRatedLoading } = useQuery<IGetData>(
 		['movies', 'topRated'],
 		getTopRatedMovies
 	)
-	const { data: upcomingData, isLoading: upcomingLoading } = useQuery<IGetMovie>(
+	const { data: upcomingData, isLoading: upcomingLoading } = useQuery<IGetData>(
 		['movies', 'upcoming'],
 		getUpcomingMovies
 	)
@@ -159,14 +159,13 @@ const Home = () => {
 					) : (
 						<Loader>Loading..</Loader>
 					)}
-
-					{popularData && !popularLoading ? (
-						<SubjectCom subject="popular" data={popularData} title="Popular" />
+					{topRatedData && !topRatedLoading ? (
+						<SubjectCom subject="topRated" data={topRatedData} title="Top Rated" />
 					) : (
 						<Loader>Loading..</Loader>
 					)}
-					{topRatedData && !topRatedLoading ? (
-						<SubjectCom subject="topRated" data={topRatedData} title="Top Rated" />
+					{popularData && !popularLoading ? (
+						<SubjectCom subject="popular" data={popularData} title="Popular" />
 					) : (
 						<Loader>Loading..</Loader>
 					)}
@@ -200,7 +199,7 @@ const Home = () => {
 											/>
 											<Info>
 												<BigTitle>{clickedMovie.title}</BigTitle>
-												<BigOverview>{clickedMovie.overview}</BigOverview>
+												<BigOverview>{clickedMovie.overview}</BigOverview>\
 											</Info>
 										</>
 									)}
