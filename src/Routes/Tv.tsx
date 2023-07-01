@@ -2,11 +2,10 @@ import { useQuery } from 'react-query'
 import { IGetData, getAiringTv, getOnAirTv, getPopularTv, getTopRatedTv } from '../api'
 import styled from 'styled-components'
 import { makeImagePath } from '../utils'
-import { motion, AnimatePresence, useScroll } from 'framer-motion'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { AnimatePresence, useScroll } from 'framer-motion'
+import { useRouteMatch } from 'react-router-dom'
 import SubjectCom from '../Components/SubjectCom'
-import { useRecoilValue } from 'recoil'
-import { atomEventSub } from '../atoms'
+import Modal from '../Components/Modal'
 
 const Wrapper = styled.div`
 	background-color: black;
@@ -41,61 +40,8 @@ const Overview = styled.p`
 	width: 50%;
 `
 
-const Overlay = styled(motion.div)`
-	position: fixed;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
-	opacity: 0;
-`
-
-const BigMovie = styled(motion.div)`
-	position: absolute;
-	width: 40vw;
-	height: 80vh;
-	left: 0;
-	right: 0;
-	margin: 0 auto;
-	background-color: ${(props) => props.theme.black.lighter};
-	border-radius: 12px;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	overflow-y: scroll;
-	::-webkit-scrollbar {
-		display: none;
-	}
-`
-
-const BigCover = styled.div`
-	width: 100%;
-	background-size: cover;
-	background-position: center center;
-	height: 50%;
-`
-
-const BigTitle = styled.h2`
-	color: ${(props) => props.theme.white.lighter};
-	padding: 20px;
-	text-align: center;
-	font-size: 36px;
-	position: relative;
-`
-
-const BigOverview = styled.div`
-	top: -80px;
-	padding: 20px;
-	color: ${(props) => props.theme.white.lighter};
-`
-
-const Info = styled.div`
-	height: 50%;
-`
-
 const Tv = () => {
-	const history = useHistory()
-	const bigTvMatch = useRouteMatch<{ tvId: string }>('/tv/:tvId')
+	const bigTvMatch = useRouteMatch<{ id: string }>('/tv/:id')
 	const { data: onAirTvData, isLoading: onAirTvLoading } = useQuery<IGetData>(
 		['tvs', 'onAirTv'],
 		getOnAirTv
@@ -121,13 +67,6 @@ const Tv = () => {
 	]
 
 	const { scrollY } = useScroll()
-
-	const eventSubString = useRecoilValue(atomEventSub)
-
-	const onOverlayClick = () => history.push('/tv')
-
-	const clickedMovie =
-		bigTvMatch?.params.tvId && allTvData?.find((tv) => String(tv.id) === bigTvMatch.params.tvId)
 
 	return (
 		<Wrapper>
@@ -164,34 +103,7 @@ const Tv = () => {
 
 					<AnimatePresence>
 						{bigTvMatch ? (
-							<>
-								<Overlay
-									onClick={onOverlayClick}
-									animate={{ opacity: 1 }}
-									exit={{ opacity: 0 }}
-								/>
-								<BigMovie
-									style={{ top: scrollY.get() + 80 }}
-									layoutId={`${eventSubString}` + bigTvMatch.params.tvId}
-								>
-									{clickedMovie && (
-										<>
-											<BigCover
-												style={{
-													backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-														clickedMovie.backdrop_path,
-														'w500'
-													)})`
-												}}
-											/>
-											<Info>
-												<BigTitle>{clickedMovie.name}</BigTitle>
-												<BigOverview>{clickedMovie.overview}</BigOverview>
-											</Info>
-										</>
-									)}
-								</BigMovie>
-							</>
+							<Modal allData={allTvData} bigMatch={bigTvMatch} Y={scrollY.get()} />
 						) : null}
 					</AnimatePresence>
 				</>

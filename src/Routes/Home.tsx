@@ -8,11 +8,11 @@ import {
 } from '../api'
 import styled from 'styled-components'
 import { makeImagePath } from '../utils'
-import { motion, AnimatePresence, useScroll } from 'framer-motion'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { AnimatePresence, useScroll } from 'framer-motion'
+import { useRouteMatch } from 'react-router-dom'
 import SubjectCom from '../Components/SubjectCom'
-import { useRecoilValue } from 'recoil'
-import { atomEventSub } from '../atoms'
+
+import Modal from '../Components/Modal'
 
 const Wrapper = styled.div`
 	background-color: black;
@@ -47,61 +47,8 @@ const Overview = styled.p`
 	width: 50%;
 `
 
-const Overlay = styled(motion.div)`
-	position: fixed;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
-	opacity: 0;
-`
-
-const BigMovie = styled(motion.div)`
-	position: absolute;
-	width: 40vw;
-	height: 80vh;
-	left: 0;
-	right: 0;
-	margin: 0 auto;
-	background-color: ${(props) => props.theme.black.lighter};
-	border-radius: 12px;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	overflow-y: scroll;
-	::-webkit-scrollbar {
-		display: none;
-	}
-`
-
-const BigCover = styled.div`
-	width: 100%;
-	background-size: cover;
-	background-position: center center;
-	height: 50%;
-`
-
-const BigTitle = styled.h2`
-	color: ${(props) => props.theme.white.lighter};
-	padding: 20px;
-	text-align: center;
-	font-size: 36px;
-	position: relative;
-`
-
-const BigOverview = styled.div`
-	top: -80px;
-	padding: 20px;
-	color: ${(props) => props.theme.white.lighter};
-`
-
-const Info = styled.div`
-	height: 50%;
-`
-
 const Home = () => {
-	const history = useHistory()
-	const bigMovieMatch = useRouteMatch<{ movieId: string }>('/movies/:movieId')
+	const bigMovieMatch = useRouteMatch<{ id: string }>('/movies/:id')
 	const { data: nowPlayingData, isLoading: nowPlayingLoading } = useQuery<IGetData>(
 		['movies', 'nowPlaying'],
 		getNowPlayingMovie
@@ -127,14 +74,6 @@ const Home = () => {
 	]
 
 	const { scrollY } = useScroll()
-
-	const eventSubString = useRecoilValue(atomEventSub)
-
-	const onOverlayClick = () => history.push('/')
-
-	const clickedMovie =
-		bigMovieMatch?.params.movieId &&
-		allMovieData?.find((movie) => String(movie.id) === bigMovieMatch.params.movieId)
 
 	return (
 		<Wrapper>
@@ -177,34 +116,11 @@ const Home = () => {
 
 					<AnimatePresence>
 						{bigMovieMatch ? (
-							<>
-								<Overlay
-									onClick={onOverlayClick}
-									animate={{ opacity: 1 }}
-									exit={{ opacity: 0 }}
-								/>
-								<BigMovie
-									style={{ top: scrollY.get() + 80 }}
-									layoutId={`${eventSubString}` + bigMovieMatch.params.movieId}
-								>
-									{clickedMovie && (
-										<>
-											<BigCover
-												style={{
-													backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-														clickedMovie.backdrop_path,
-														'w500'
-													)})`
-												}}
-											/>
-											<Info>
-												<BigTitle>{clickedMovie.title}</BigTitle>
-												<BigOverview>{clickedMovie.overview}</BigOverview>
-											</Info>
-										</>
-									)}
-								</BigMovie>
-							</>
+							<Modal
+								allData={allMovieData}
+								bigMatch={bigMovieMatch}
+								Y={scrollY.get()}
+							/>
 						) : null}
 					</AnimatePresence>
 				</>
