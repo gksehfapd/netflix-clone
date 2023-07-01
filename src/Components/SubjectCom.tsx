@@ -195,12 +195,46 @@ const genres = [
 	{
 		id: 37,
 		name: 'Western'
+	},
+	{
+		id: 10759,
+		name: 'Action & Adventure'
+	},
+
+	{
+		id: 10762,
+		name: 'Kids'
+	},
+
+	{
+		id: 10763,
+		name: 'News'
+	},
+	{
+		id: 10764,
+		name: 'Reality'
+	},
+	{
+		id: 10765,
+		name: 'Sci-Fi & Fantasy'
+	},
+	{
+		id: 10766,
+		name: 'Soap'
+	},
+	{
+		id: 10767,
+		name: 'Talk'
+	},
+	{
+		id: 10768,
+		name: 'War & Politics'
 	}
 ]
 
 const SubjectCom = ({ subject, title, data }: IProps) => {
 	const history = useHistory()
-	const [nowPlayingIndex, setNowPlayingIndex] = useState(0)
+	const [dataIndex, setDataIndex] = useState(0)
 	const [back, setBack] = useState(false)
 	const [leaving, setLeaving] = useState(false)
 
@@ -211,28 +245,28 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 	}
 
 	const increaseIndex = (
-		movieData: IGetData,
+		fetchData: IGetData,
 		setIndex: React.Dispatch<React.SetStateAction<number>>
 	) => {
 		setBack(false)
-		if (movieData) {
+		if (fetchData) {
 			if (leaving) return
 			toggleLeaving()
-			const totalMovies = movieData.results.length - 1
+			const totalMovies = fetchData.results.length - 1
 			const maxIndex = Math.floor(totalMovies / offset) - 1
 			setIndex((prev) => (prev === maxIndex ? 0 : prev + 1))
 		}
 	}
 
 	const decreaseIndex = (
-		movieData: IGetData,
+		fetchData: IGetData,
 		setIndex: React.Dispatch<React.SetStateAction<number>>
 	) => {
 		setBack(true)
-		if (movieData) {
+		if (fetchData) {
 			if (leaving) return
 			toggleLeaving()
-			const totalMovies = movieData.results.length - 1
+			const totalMovies = fetchData.results.length - 1
 			const maxIndex = Math.floor(totalMovies / offset) - 1
 			setIndex((prev) => (prev === maxIndex ? 0 : prev + 1))
 		}
@@ -254,7 +288,7 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 				<AnimatePresence custom={back} initial={false} onExitComplete={toggleLeaving}>
 					<ArrowBtn
 						onClick={() => {
-							if (data) increaseIndex(data, setNowPlayingIndex)
+							if (data) increaseIndex(data, setDataIndex)
 						}}
 						variants={btnVars}
 						whileHover="hover"
@@ -269,28 +303,28 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 						animate="visible"
 						exit="exit"
 						transition={{ type: 'tween', duration: 1 }}
-						key={`${subject}` + nowPlayingIndex}
+						key={`${subject}` + dataIndex}
 					>
 						{data?.results
 							.slice(1)
-							.slice(offset * nowPlayingIndex, offset * nowPlayingIndex + offset)
-							.map((movie) => (
+							.slice(offset * dataIndex, offset * dataIndex + offset)
+							.map((fetchData) => (
 								<Box
-									key={`${subject}` + movie.id}
+									key={`${subject}` + fetchData.id}
 									variants={boxVars}
 									whileHover="hover"
 									initial="normal"
 									transition={{ type: 'tween' }}
-									bgphoto={makeImagePath(movie.poster_path)}
-									onClick={() => onBoxClicked(movie.id, `${subject}`)}
-									layoutId={`${subject}` + movie.id}
+									bgphoto={makeImagePath(fetchData.poster_path)}
+									onClick={() => onBoxClicked(fetchData.id, `${subject}`)}
+									layoutId={`${subject}` + fetchData.id}
 								>
 									<img src="" alt="" />
 									<Info variants={infoVars}>
-										<h4>Grade : {movie.vote_average}</h4>
+										<h4>Grade : {fetchData.vote_average}</h4>
 										<h4>
 											Genres :{' '}
-											{movie.genre_ids.map(
+											{fetchData.genre_ids.map(
 												(e) =>
 													genres.find((genre) => genre.id === e)?.name +
 													' '
@@ -302,7 +336,7 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 					</Row>
 					<ArrowBtn
 						onClick={() => {
-							if (data) decreaseIndex(data, setNowPlayingIndex)
+							if (data) decreaseIndex(data, setDataIndex)
 						}}
 						variants={btnVars}
 						whileHover="hover"

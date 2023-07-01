@@ -185,7 +185,7 @@ const Tv = () => {
 												}}
 											/>
 											<Info>
-												<BigTitle>{clickedMovie.title}</BigTitle>
+												<BigTitle>{clickedMovie.name}</BigTitle>
 												<BigOverview>{clickedMovie.overview}</BigOverview>
 											</Info>
 										</>

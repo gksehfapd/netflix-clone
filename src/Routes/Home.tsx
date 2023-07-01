@@ -199,7 +199,7 @@ const Home = () => {
 											/>
 											<Info>
 												<BigTitle>{clickedMovie.title}</BigTitle>
-												<BigOverview>{clickedMovie.overview}</BigOverview>\
+												<BigOverview>{clickedMovie.overview}</BigOverview>
 											</Info>
 										</>
 									)}
