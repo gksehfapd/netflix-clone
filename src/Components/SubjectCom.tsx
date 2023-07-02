@@ -166,17 +166,20 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 
 	const onBoxClicked = async (dataId: number, subName: string) => {
 		setEventSub(subName)
+		console.log(history.location.pathname)
 		if (path === '/tv') {
 			setCasts(await getTvCast(dataId))
 		} else {
 			setCasts(await getMovieCast(dataId))
 		}
 
-		history.push(
-			`${
-				history.location.pathname === '/tv' ? history.location.pathname : '/movies'
-			}/${dataId}`
-		)
+		if (history.location.pathname === '/') {
+			history.push(`${'/movies'}/${dataId}`)
+		} else if (history.location.pathname === '/tv') {
+			history.push(`${'/tv'}/${dataId}`)
+		} else if (history.location.pathname === '/search' && history.location.search) {
+			history.push(`${'/search'}/${dataId}${history.location.search}`)
+		}
 	}
 
 	return (

@@ -107,11 +107,7 @@ const Modal = ({ allData, bigMatch, Y }: IModalProps) => {
 	const casts: any = useRecoilValue(atomCasts)
 
 	const onOverlayClick = () => {
-		if (path === '/tv') {
-			history.push('/tv')
-		} else {
-			history.push('/')
-		}
+		history.goBack()
 	}
 
 	const genres = useRecoilValue(atomGenres)
@@ -155,7 +151,11 @@ const Modal = ({ allData, bigMatch, Y }: IModalProps) => {
 							<BigOverview>
 								<OverviewH4>
 									Casts :{' '}
-									{casts.cast.slice(0, 3).map((cast: ICast) => cast.name + ', ')}
+									{casts.cast
+										? casts.cast
+												.slice(0, 3)
+												.map((cast: ICast) => cast.name + ', ')
+										: ''}
 									...
 								</OverviewH4>
 								<Summary>

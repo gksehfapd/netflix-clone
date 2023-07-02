@@ -10,10 +10,11 @@ export interface IData {
 	vote_average: number
 	genre_ids: number[]
 	name: string
+	media_type: string
 }
 
 export interface IGetData {
-	dates: {
+	dates?: {
 		maximum: string
 		minimum: string
 	}
@@ -61,4 +62,16 @@ export const getTopRatedTv = () => {
 
 export const getTvCast = (id: number) => {
 	return fetch(`${BASE_PATH}/tv/${id}/credits?api_key=${API_KEY}`).then((res) => res.json())
+}
+
+export const getSearchMovie = (keyword: string | null) => {
+	return fetch(`${BASE_PATH}/search/movie?api_key=${API_KEY}&query=${keyword}`).then((res) =>
+		res.json()
+	)
+}
+
+export const getSearchTv = (keyword: string | null) => {
+	return fetch(`${BASE_PATH}/search/tv?api_key=${API_KEY}&query=${keyword}`).then((res) =>
+		res.json()
+	)
 }
