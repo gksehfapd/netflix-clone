@@ -1,10 +1,14 @@
 import { useQuery } from 'react-query'
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom'
+import { useLocation, useRouteMatch } from 'react-router-dom'
 import styled from 'styled-components'
-import { IGetData, getSearchMovie, getSearchTv } from '../api'
+import { IGetData, IGetPerson, getSearchMovie, getSearchPerson, getSearchTv } from '../api'
 import SubjectCom from '../Components/SubjectCom'
 import { AnimatePresence, useScroll } from 'framer-motion'
 import Modal from '../Components/Modal'
+
+import Person from '../Components/Person'
+import { useState } from 'react'
+import PersonModal from '../Components/PersonModal'
 
 const Wrapper = styled.div`
 	background-color: black;
@@ -29,6 +33,7 @@ const Loader = styled.div`
 const Search = () => {
 	const location = useLocation()
 	const keyword = new URLSearchParams(location.search).get('keyword')
+
 	const { data: movieData, isLoading: isMovieLoading } = useQuery<IGetData>(
 		['search', 'searchMovie'],
 		() => getSearchMovie(keyword)
@@ -39,34 +44,57 @@ const Search = () => {
 		() => getSearchTv(keyword)
 	)
 
+	const { data: personData, isLoading: isPersonLoading } = useQuery<IGetPerson>(
+		['search', 'searchPerson'],
+		() => getSearchPerson(keyword)
+	)
+
 	const bigSearchMatch = useRouteMatch<{ id: string }>('/search/:id')
+
 	const { scrollY } = useScroll()
 
 	const allSearchData = [...(movieData?.results || []), ...(tvData?.results || [])]
-	const history = useHistory()
+	const [clickPerson, setClickPerson] = useState(false)
 	return (
 		<Wrapper>
 			<InnerWrapper>
-				<SearchKeyword onClick={() => console.log(history)}>
-					Search for '{keyword}'
-				</SearchKeyword>
+				<SearchKeyword>Search for '{keyword}'</SearchKeyword>
 
 				{isMovieLoading ? (
 					<Loader>Loading..</Loader>
 				) : movieData ? (
-					<SubjectCom subject="movieData" data={movieData} title="Movies" />
+					<div onClick={() => setClickPerson(false)}>
+						<SubjectCom subject="movieData" data={movieData} title="Movies" />
+					</div>
 				) : null}
 
 				{isTvLoading ? (
 					<Loader>Loading..</Loader>
 				) : tvData ? (
-					<SubjectCom subject="tvData" data={tvData} title="Tv Shows" />
+					<div onClick={() => setClickPerson(false)}>
+						<SubjectCom subject="tvData" data={tvData} title="Tv Shows" />
+					</div>
+				) : null}
+
+				{isPersonLoading ? (
+					<Loader>Loading..</Loader>
+				) : personData ? (
+					<div onClick={() => setClickPerson(true)}>
+						<Person subject="person" data={personData} title="Person" />
+					</div>
 				) : null}
 			</InnerWrapper>
 
 			<AnimatePresence>
-				{bigSearchMatch ? (
+				{bigSearchMatch && !clickPerson ? (
 					<Modal allData={allSearchData} bigMatch={bigSearchMatch} Y={scrollY.get()} />
+				) : null}
+				{bigSearchMatch && clickPerson ? (
+					<PersonModal
+						allData={personData?.results || []}
+						bigMatch={bigSearchMatch}
+						Y={scrollY.get()}
+					/>
 				) : null}
 			</AnimatePresence>
 		</Wrapper>

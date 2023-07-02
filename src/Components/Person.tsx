@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import styled from 'styled-components'
-import { IGetData, getMovieCast, getTvCast } from '../api'
+import { IGetPerson, getMovieCast, getTvCast } from '../api'
 import { makeImagePath } from '../utils'
 import { useHistory, useRouteMatch } from 'react-router-dom'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { atomCasts, atomEventSub, atomGenres } from '../atoms'
+import { useSetRecoilState } from 'recoil'
+import { atomCasts, atomEventSub } from '../atoms'
 
 const SubjectDiv = styled.div`
 	width: 100%;
@@ -116,10 +116,10 @@ const offset = 6
 interface IProps {
 	subject: string
 	title: string
-	data: IGetData
+	data: IGetPerson
 }
 
-const SubjectCom = ({ subject, title, data }: IProps) => {
+const Person = ({ subject, title, data }: IProps) => {
 	const history = useHistory()
 	const [dataIndex, setDataIndex] = useState(0)
 	const [back, setBack] = useState(false)
@@ -132,10 +132,8 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 		setLeaving((prev) => !prev)
 	}
 
-	const genres = useRecoilValue(atomGenres)
-
 	const increaseIndex = (
-		fetchData: IGetData,
+		fetchData: IGetPerson,
 		setIndex: React.Dispatch<React.SetStateAction<number>>
 	) => {
 		setBack(false)
@@ -149,7 +147,7 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 	}
 
 	const decreaseIndex = (
-		fetchData: IGetData,
+		fetchData: IGetPerson,
 		setIndex: React.Dispatch<React.SetStateAction<number>>
 	) => {
 		setBack(true)
@@ -216,21 +214,13 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 									whileHover="hover"
 									initial="normal"
 									transition={{ type: 'tween' }}
-									bgphoto={makeImagePath(fetchData.poster_path)}
+									bgphoto={makeImagePath(fetchData.profile_path)}
 									onClick={() => onBoxClicked(fetchData.id, `${subject}`)}
 									layoutId={`${subject}` + fetchData.id}
 								>
 									<img src="" alt="" />
 									<Info variants={infoVars}>
-										<h4>Grade : {fetchData.vote_average}</h4>
-										<h4>
-											Genres :{' '}
-											{fetchData.genre_ids.map(
-												(e) =>
-													genres.find((genre) => genre.id === e)?.name +
-													' '
-											)}
-										</h4>
+										<h4>{fetchData.name}</h4>
 									</Info>
 								</Box>
 							))}
@@ -250,4 +240,4 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 	)
 }
 
-export default SubjectCom
+export default Person

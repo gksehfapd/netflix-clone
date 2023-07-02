@@ -141,6 +141,7 @@ function Header() {
 	const { register, handleSubmit } = useForm<IForm>()
 	const onValid = (data: IForm) => {
 		history.push(`/search?keyword=${data.keyword}`)
+		window.location.reload()
 	}
 
 	return (

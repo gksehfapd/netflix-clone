@@ -94,6 +94,7 @@ interface IModalProps {
 	bigMatch: match<{
 		id?: string
 	}> | null
+
 	Y: number
 }
 
@@ -105,6 +106,7 @@ const Modal = ({ allData, bigMatch, Y }: IModalProps) => {
 	const history = useHistory()
 	const { path } = useRouteMatch()
 	const casts: any = useRecoilValue(atomCasts)
+	console.log(casts)
 
 	const onOverlayClick = () => {
 		history.goBack()

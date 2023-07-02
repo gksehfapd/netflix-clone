@@ -13,6 +13,23 @@ export interface IData {
 	media_type: string
 }
 
+export interface IKnown {
+	genre_ids: number[]
+	id: number
+	original_title: string
+	poster_path: string
+	vote_average: number
+	backdrop_path: string
+	media_type: string
+}
+
+export interface IPerson {
+	id: number
+	name: string
+	profile_path: string
+	known_for: IKnown[]
+}
+
 export interface IGetData {
 	dates?: {
 		maximum: string
@@ -20,6 +37,13 @@ export interface IGetData {
 	}
 	page: number
 	results: IData[]
+	total_pages: number
+	total_results: number
+}
+
+export interface IGetPerson {
+	page: number
+	results: IPerson[]
 	total_pages: number
 	total_results: number
 }
@@ -72,6 +96,16 @@ export const getSearchMovie = (keyword: string | null) => {
 
 export const getSearchTv = (keyword: string | null) => {
 	return fetch(`${BASE_PATH}/search/tv?api_key=${API_KEY}&query=${keyword}`).then((res) =>
+		res.json()
+	)
+}
+
+export const getKnownSearch = (dataId: number, mediaType: string) => {
+	return fetch(`${BASE_PATH}/${mediaType}/${dataId}?api_key=${API_KEY}`).then((res) => res.json())
+}
+
+export const getSearchPerson = (keyword: string | null) => {
+	return fetch(`${BASE_PATH}/search/person?api_key=${API_KEY}&query=${keyword}`).then((res) =>
 		res.json()
 	)
 }
