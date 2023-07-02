@@ -58,3 +58,7 @@ export const getPopularTv = () => {
 export const getTopRatedTv = () => {
 	return fetch(`${BASE_PATH}/tv/top_rated?api_key=${API_KEY}`).then((res) => res.json())
 }
+
+export const getTvCast = (id: number) => {
+	return fetch(`${BASE_PATH}/tv/${id}/credits?api_key=${API_KEY}`).then((res) => res.json())
+}

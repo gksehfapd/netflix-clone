@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import styled from 'styled-components'
-import { IGetData } from '../api'
+import { IGetData, getMovieCast, getTvCast } from '../api'
 import { makeImagePath } from '../utils'
-import { useHistory } from 'react-router-dom'
-import { useSetRecoilState } from 'recoil'
-import { atomEventSub } from '../atoms'
+import { useHistory, useRouteMatch } from 'react-router-dom'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { atomCasts, atomEventSub, atomGenres } from '../atoms'
 
 const SubjectDiv = styled.div`
 	width: 100%;
@@ -119,119 +119,6 @@ interface IProps {
 	data: IGetData
 }
 
-const genres = [
-	{
-		id: 28,
-		name: 'Action'
-	},
-	{
-		id: 12,
-		name: 'Adventure'
-	},
-	{
-		id: 16,
-		name: 'Animation'
-	},
-	{
-		id: 35,
-		name: 'Comedy'
-	},
-	{
-		id: 80,
-		name: 'Crime'
-	},
-	{
-		id: 99,
-		name: 'Documentary'
-	},
-	{
-		id: 18,
-		name: 'Drama'
-	},
-	{
-		id: 10751,
-		name: 'Family'
-	},
-	{
-		id: 14,
-		name: 'Fantasy'
-	},
-	{
-		id: 36,
-		name: 'History'
-	},
-	{
-		id: 27,
-		name: 'Horror'
-	},
-	{
-		id: 10402,
-		name: 'Music'
-	},
-	{
-		id: 9648,
-		name: 'Mystery'
-	},
-	{
-		id: 10749,
-		name: 'Romance'
-	},
-	{
-		id: 878,
-		name: 'Science Fiction'
-	},
-	{
-		id: 10770,
-		name: 'TV Movie'
-	},
-	{
-		id: 53,
-		name: 'Thriller'
-	},
-	{
-		id: 10752,
-		name: 'War'
-	},
-	{
-		id: 37,
-		name: 'Western'
-	},
-	{
-		id: 10759,
-		name: 'Action & Adventure'
-	},
-
-	{
-		id: 10762,
-		name: 'Kids'
-	},
-
-	{
-		id: 10763,
-		name: 'News'
-	},
-	{
-		id: 10764,
-		name: 'Reality'
-	},
-	{
-		id: 10765,
-		name: 'Sci-Fi & Fantasy'
-	},
-	{
-		id: 10766,
-		name: 'Soap'
-	},
-	{
-		id: 10767,
-		name: 'Talk'
-	},
-	{
-		id: 10768,
-		name: 'War & Politics'
-	}
-]
-
 const SubjectCom = ({ subject, title, data }: IProps) => {
 	const history = useHistory()
 	const [dataIndex, setDataIndex] = useState(0)
@@ -239,10 +126,13 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 	const [leaving, setLeaving] = useState(false)
 
 	const setEventSub = useSetRecoilState(atomEventSub)
+	const setCasts = useSetRecoilState(atomCasts)
 
 	const toggleLeaving = () => {
 		setLeaving((prev) => !prev)
 	}
+
+	const genres = useRecoilValue(atomGenres)
 
 	const increaseIndex = (
 		fetchData: IGetData,
@@ -272,8 +162,16 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 		}
 	}
 
+	const { path } = useRouteMatch()
+
 	const onBoxClicked = async (dataId: number, subName: string) => {
 		setEventSub(subName)
+		if (path === '/tv') {
+			setCasts(await getTvCast(dataId))
+		} else {
+			setCasts(await getMovieCast(dataId))
+		}
+
 		history.push(
 			`${
 				history.location.pathname === '/tv' ? history.location.pathname : '/movies'

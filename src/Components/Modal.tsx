@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { match, useHistory, useRouteMatch } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import { atomEventSub } from '../atoms'
+import { atomCasts, atomEventSub, atomGenres } from '../atoms'
 import { makeImagePath } from '../utils'
 import { IData } from '../api'
 
@@ -38,24 +38,55 @@ const BigCover = styled.div`
 	background-size: cover;
 	background-position: center center;
 	height: 50%;
+	display: flex;
+`
+
+const TitleArea = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: end;
+	align-items: end;
 `
 
 const BigTitle = styled.h2`
 	color: ${(props) => props.theme.white.lighter};
-	padding: 20px;
+	padding: 2px 20px;
 	text-align: center;
 	font-size: 36px;
 	position: relative;
+	width: 65%;
 `
 
 const BigOverview = styled.div`
 	top: -80px;
-	padding: 20px;
+	padding: 6px 20px;
+	width: 65%;
 	color: ${(props) => props.theme.white.lighter};
+`
+
+const Summary = styled.div`
+	padding: 4px 0px;
+`
+
+const OverviewH4 = styled.h4`
+	padding: 4px 0px;
+`
+
+const PosterArea = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 35%;
+	margin-left: 16px;
+	transform: translateY(-50%);
+`
+
+const BigPoster = styled.img`
+	width: 100%;
 `
 
 const Info = styled.div`
 	height: 50%;
+	display: flex;
 `
 
 interface IModalProps {
@@ -66,9 +97,14 @@ interface IModalProps {
 	Y: number
 }
 
+interface ICast {
+	name: string
+}
+
 const Modal = ({ allData, bigMatch, Y }: IModalProps) => {
 	const history = useHistory()
 	const { path } = useRouteMatch()
+	const casts: any = useRecoilValue(atomCasts)
 
 	const onOverlayClick = () => {
 		if (path === '/tv') {
@@ -77,6 +113,8 @@ const Modal = ({ allData, bigMatch, Y }: IModalProps) => {
 			history.push('/')
 		}
 	}
+
+	const genres = useRecoilValue(atomGenres)
 
 	const eventSubString = useRecoilValue(atomEventSub)
 
@@ -96,12 +134,34 @@ const Modal = ({ allData, bigMatch, Y }: IModalProps) => {
 									'w500'
 								)})`
 							}}
-						/>
+						>
+							<TitleArea>
+								<BigTitle>
+									{path === '/tv' ? clickedPoster.name : clickedPoster.title}
+								</BigTitle>
+							</TitleArea>
+						</BigCover>
 						<Info>
-							<BigTitle>
-								{path === '/tv' ? clickedPoster.name : clickedPoster.title}
-							</BigTitle>
-							<BigOverview>{clickedPoster.overview}</BigOverview>
+							<PosterArea>
+								<BigPoster src={makeImagePath(clickedPoster.poster_path)} alt="" />
+								<OverviewH4>
+									Genres :{' '}
+									{clickedPoster.genre_ids.map(
+										(e) => genres.find((genre) => genre.id === e)?.name + ' '
+									)}
+								</OverviewH4>
+								<OverviewH4>Grade : {clickedPoster.vote_average}</OverviewH4>
+							</PosterArea>
+							<BigOverview>
+								<OverviewH4>
+									Casts :{' '}
+									{casts.cast.slice(0, 3).map((cast: ICast) => cast.name + ', ')}
+									...
+								</OverviewH4>
+								<Summary>
+									<p>{clickedPoster.overview}</p>
+								</Summary>
+							</BigOverview>
 						</Info>
 					</>
 				)}
