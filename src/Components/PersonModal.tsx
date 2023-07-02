@@ -1,13 +1,11 @@
 import { motion } from 'framer-motion'
-import { match, useHistory, useRouteMatch } from 'react-router-dom'
+import { match, useHistory } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import { atomEventSub, atomGenres } from '../atoms'
+import { atomEventSub } from '../atoms'
 import { makeImagePath } from '../utils'
-import { IData, IPerson, getKnownSearch } from '../api'
+import { IPerson, getKnownSearch } from '../api'
 import { useState } from 'react'
-import Modal from './Modal'
-import { Id } from 'react-beautiful-dnd'
 
 const Overlay = styled(motion.div)`
 	position: fixed;
@@ -211,9 +209,8 @@ const PersonModal = ({ allData, bigMatch, Y }: IModalProps) => {
 					(isWork ? (
 						<>
 							<BigCover
-								onClick={() => console.log(selectWork)}
 								initial={{ opacity: 0 }}
-								animate={{ opacity: 1, transitionDuration: '4' }}
+								animate={{ opacity: 1 }}
 								className="bigCover"
 								style={{
 									backgroundImage: `linear-gradient(to top, black, transparent),
@@ -239,7 +236,7 @@ const PersonModal = ({ allData, bigMatch, Y }: IModalProps) => {
 										src={makeImagePath(selectWork.poster_path)}
 										alt=""
 									/>
-									<OverviewH4 onClick={() => console.log(selectWork.genres)}>
+									<OverviewH4>
 										Genres :{' '}
 										{selectWork.genres &&
 											selectWork.genres.map((e: IGenre) => e.name + ' ')}
@@ -274,6 +271,7 @@ const PersonModal = ({ allData, bigMatch, Y }: IModalProps) => {
 							<Info>
 								{clickedPerson.known_for.map((work) => (
 									<InfoKnown
+										key={work.id}
 										onClick={() => onWorkClicked(work.id, work.media_type)}
 										variants={infoVars}
 										whileHover="hover"

@@ -3,7 +3,6 @@ import Home from './Routes/Home'
 import Search from './Routes/Search'
 import Tv from './Routes/Tv'
 import Header from './Components/Header'
-import Work from './Routes/Work'
 
 const App = () => {
 	return (
@@ -15,9 +14,6 @@ const App = () => {
 				</Route>
 				<Route path="/search">
 					<Search />
-				</Route>
-				<Route path="/work">
-					<Work />
 				</Route>
 				<Route path={['/', '/movies/:movieId']}>
 					<Home />

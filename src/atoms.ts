@@ -121,7 +121,15 @@ export const atomGenres = atom({
 	]
 })
 
-export const atomCasts = atom({
+export interface ICast {
+	name: string
+}
+export interface IUseCast {
+	id: number
+	cast: ICast[]
+}
+
+export const atomCasts = atom<IUseCast[]>({
 	key: 'casts',
-	default: []
+	default: [{ id: 1, cast: [{ name: 'hello' }] }]
 })

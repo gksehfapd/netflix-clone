@@ -106,7 +106,6 @@ const Modal = ({ allData, bigMatch, Y }: IModalProps) => {
 	const history = useHistory()
 	const { path } = useRouteMatch()
 	const casts: any = useRecoilValue(atomCasts)
-	console.log(casts)
 
 	const onOverlayClick = () => {
 		history.goBack()
