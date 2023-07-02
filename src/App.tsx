@@ -3,23 +3,26 @@ import Home from './Routes/Home'
 import Search from './Routes/Search'
 import Tv from './Routes/Tv'
 import Header from './Components/Header'
+import { HelmetProvider } from 'react-helmet-async'
 
 const App = () => {
 	return (
-		<Router>
-			<Header />
-			<Switch>
-				<Route path="/tv">
-					<Tv />
-				</Route>
-				<Route path="/search">
-					<Search />
-				</Route>
-				<Route path={['/', '/movies/:movieId']}>
-					<Home />
-				</Route>
-			</Switch>
-		</Router>
+		<HelmetProvider>
+			<Router>
+				<Header />
+				<Switch>
+					<Route path="/tv">
+						<Tv />
+					</Route>
+					<Route path="/search">
+						<Search />
+					</Route>
+					<Route path={['/', '/movies/:movieId']}>
+						<Home />
+					</Route>
+				</Switch>
+			</Router>
+		</HelmetProvider>
 	)
 }
 

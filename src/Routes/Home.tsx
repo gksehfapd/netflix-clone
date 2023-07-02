@@ -11,7 +11,7 @@ import { makeImagePath } from '../utils'
 import { AnimatePresence, useScroll } from 'framer-motion'
 import { useRouteMatch } from 'react-router-dom'
 import SubjectCom from '../Components/SubjectCom'
-
+import { Helmet } from 'react-helmet-async'
 import Modal from '../Components/Modal'
 
 const Wrapper = styled.div`
@@ -77,6 +77,9 @@ const Home = () => {
 
 	return (
 		<Wrapper>
+			<Helmet>
+				<title>Netflix | Movies</title>
+			</Helmet>
 			{nowPlayingLoading ? (
 				<Loader>Loading..</Loader>
 			) : (

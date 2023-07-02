@@ -6,6 +6,7 @@ import { AnimatePresence, useScroll } from 'framer-motion'
 import { useRouteMatch } from 'react-router-dom'
 import SubjectCom from '../Components/SubjectCom'
 import Modal from '../Components/Modal'
+import { Helmet } from 'react-helmet-async'
 
 const Wrapper = styled.div`
 	background-color: black;
@@ -70,6 +71,9 @@ const Tv = () => {
 
 	return (
 		<Wrapper>
+			<Helmet>
+				<title>Netflix | TV</title>
+			</Helmet>
 			{onAirTvLoading ? (
 				<Loader>Loading..</Loader>
 			) : (

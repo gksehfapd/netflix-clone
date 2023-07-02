@@ -9,6 +9,7 @@ import Modal from '../Components/Modal'
 import Person from '../Components/Person'
 import { useState } from 'react'
 import PersonModal from '../Components/PersonModal'
+import { Helmet } from 'react-helmet-async'
 
 const Wrapper = styled.div`
 	background-color: black;
@@ -57,6 +58,9 @@ const Search = () => {
 	const [clickPerson, setClickPerson] = useState(false)
 	return (
 		<Wrapper>
+			<Helmet>
+				<title>Netflix | {keyword}</title>
+			</Helmet>
 			<InnerWrapper>
 				<SearchKeyword>Search for '{keyword}'</SearchKeyword>
 
