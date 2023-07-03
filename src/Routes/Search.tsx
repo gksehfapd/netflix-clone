@@ -7,7 +7,7 @@ import { AnimatePresence, useScroll } from 'framer-motion'
 import Modal from '../Components/Modal'
 
 import Person from '../Components/Person'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PersonModal from '../Components/PersonModal'
 import { Helmet } from 'react-helmet-async'
 
@@ -35,20 +35,23 @@ const Search = () => {
 	const location = useLocation()
 	const keyword = new URLSearchParams(location.search).get('keyword')
 
-	const { data: movieData, isLoading: isMovieLoading } = useQuery<IGetData>(
-		['search', 'searchMovie'],
-		() => getSearchMovie(keyword)
-	)
+	const {
+		data: movieData,
+		isLoading: isMovieLoading,
+		refetch: movieRefetch
+	} = useQuery<IGetData>(['search', 'searchMovie'], () => getSearchMovie(keyword))
 
-	const { data: tvData, isLoading: isTvLoading } = useQuery<IGetData>(
-		['search', 'searchTv'],
-		() => getSearchTv(keyword)
-	)
+	const {
+		data: tvData,
+		isLoading: isTvLoading,
+		refetch: tvRefetch
+	} = useQuery<IGetData>(['search', 'searchTv'], () => getSearchTv(keyword))
 
-	const { data: personData, isLoading: isPersonLoading } = useQuery<IGetPerson>(
-		['search', 'searchPerson'],
-		() => getSearchPerson(keyword)
-	)
+	const {
+		data: personData,
+		isLoading: isPersonLoading,
+		refetch: personRefetch
+	} = useQuery<IGetPerson>(['search', 'searchPerson'], () => getSearchPerson(keyword))
 
 	const bigSearchMatch = useRouteMatch<{ id: string }>('/search/:id')
 
@@ -56,6 +59,12 @@ const Search = () => {
 
 	const allSearchData = [...(movieData?.results || []), ...(tvData?.results || [])]
 	const [clickPerson, setClickPerson] = useState(false)
+
+	useEffect(() => {
+		movieRefetch()
+		tvRefetch()
+		personRefetch()
+	}, [keyword, movieRefetch, tvRefetch, personRefetch])
 	return (
 		<Wrapper>
 			<Helmet>

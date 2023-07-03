@@ -8,13 +8,13 @@ import { HelmetProvider } from 'react-helmet-async'
 const App = () => {
 	return (
 		<HelmetProvider>
-			<Router>
+			<Router basename={process.env.PUBLIC_URL}>
 				<Header />
 				<Switch>
 					<Route path="/tv">
 						<Tv />
 					</Route>
-					<Route path="/search">
+					<Route path={['/search', '/search/:keyword']}>
 						<Search />
 					</Route>
 					<Route path={['/', '/movies/:movieId']}>
