@@ -10,11 +10,13 @@ import { atomCasts, atomEventSub } from '../atoms'
 const SubjectDiv = styled.div`
 	width: 100%;
 	margin-bottom: 60px;
+	height: 50vh;
 `
 
 const Slider = styled.div`
 	display: flex;
 	justify-content: space-between;
+	height: 90%;
 `
 
 const SubjectTitle = styled.div`
@@ -26,13 +28,13 @@ const SubjectTitle = styled.div`
 `
 
 const ArrowBtn = styled(motion.div)`
-	height: 250px;
 	width: 5%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
 	font-size: 32px;
+	height: 90%;
 `
 
 const Row = styled(motion.div)`
@@ -42,6 +44,7 @@ const Row = styled(motion.div)`
 	position: absolute;
 	width: 90%;
 	left: 5%;
+	height: 40%;
 `
 
 const Box = styled(motion.div)<{ bgphoto: string }>`
