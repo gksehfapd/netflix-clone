@@ -10,11 +10,13 @@ import { atomCasts, atomEventSub, atomGenres } from '../atoms'
 const SubjectDiv = styled.div`
 	width: 100%;
 	margin-bottom: 60px;
+	height: 50vh;
 `
 
 const Slider = styled.div`
 	display: flex;
 	justify-content: space-between;
+	height: 90%;
 `
 
 const SubjectTitle = styled.div`
@@ -26,13 +28,13 @@ const SubjectTitle = styled.div`
 `
 
 const ArrowBtn = styled(motion.div)`
-	height: 250px;
 	width: 5%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
 	font-size: 32px;
+	height: 90%;
 `
 
 const Row = styled(motion.div)`
@@ -42,11 +44,12 @@ const Row = styled(motion.div)`
 	position: absolute;
 	width: 90%;
 	left: 5%;
+	height: 40%;
 `
 
 const Box = styled(motion.div)<{ bgphoto: string }>`
+	height: 100%;
 	background-color: white;
-	height: 250px;
 	font-size: 64px;
 	background-image: url(${(props) => props.bgphoto});
 	background-size: cover;
@@ -220,7 +223,6 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 									onClick={() => onBoxClicked(fetchData.id, `${subject}`)}
 									layoutId={`${subject}` + fetchData.id}
 								>
-									<img src="" alt="" />
 									<Info variants={infoVars}>
 										<h4>Grade : {fetchData.vote_average}</h4>
 										<h4>
