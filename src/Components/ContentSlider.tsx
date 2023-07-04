@@ -122,7 +122,7 @@ interface IProps {
 	data: IGetData
 }
 
-const SubjectCom = ({ subject, title, data }: IProps) => {
+const ContentSlider = ({ subject, title, data }: IProps) => {
 	const history = useHistory()
 	const [dataIndex, setDataIndex] = useState(0)
 	const [back, setBack] = useState(false)
@@ -253,4 +253,4 @@ const SubjectCom = ({ subject, title, data }: IProps) => {
 	)
 }
 
-export default SubjectCom
+export default ContentSlider

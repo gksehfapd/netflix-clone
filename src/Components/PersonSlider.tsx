@@ -122,7 +122,7 @@ interface IProps {
 	data: IGetPerson
 }
 
-const Person = ({ subject, title, data }: IProps) => {
+const PersonSlider = ({ subject, title, data }: IProps) => {
 	const history = useHistory()
 	const [dataIndex, setDataIndex] = useState(0)
 	const [back, setBack] = useState(false)
@@ -243,4 +243,4 @@ const Person = ({ subject, title, data }: IProps) => {
 	)
 }
 
-export default Person
+export default PersonSlider

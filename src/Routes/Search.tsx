@@ -2,11 +2,11 @@ import { useQuery } from 'react-query'
 import { useLocation, useRouteMatch } from 'react-router-dom'
 import styled from 'styled-components'
 import { IGetData, IGetPerson, getSearchMovie, getSearchPerson, getSearchTv } from '../api'
-import SubjectCom from '../Components/SubjectCom'
+import ContentSlider from '../Components/ContentSlider'
 import { AnimatePresence, useScroll } from 'framer-motion'
-import Modal from '../Components/Modal'
+import ContentModal from '../Components/ContentModal'
 
-import Person from '../Components/Person'
+import PersonSlider from '../Components/PersonSlider'
 import { useEffect, useState } from 'react'
 import PersonModal from '../Components/PersonModal'
 import { Helmet } from 'react-helmet-async'
@@ -77,7 +77,7 @@ const Search = () => {
 					<Loader>Loading..</Loader>
 				) : movieData ? (
 					<div onClick={() => setClickPerson(false)}>
-						<SubjectCom subject="movieData" data={movieData} title="Movies" />
+						<ContentSlider subject="movieData" data={movieData} title="Movies" />
 					</div>
 				) : null}
 
@@ -85,7 +85,7 @@ const Search = () => {
 					<Loader>Loading..</Loader>
 				) : tvData ? (
 					<div onClick={() => setClickPerson(false)}>
-						<SubjectCom subject="tvData" data={tvData} title="Tv Shows" />
+						<ContentSlider subject="tvData" data={tvData} title="Tv Shows" />
 					</div>
 				) : null}
 
@@ -93,14 +93,18 @@ const Search = () => {
 					<Loader>Loading..</Loader>
 				) : personData ? (
 					<div onClick={() => setClickPerson(true)}>
-						<Person subject="person" data={personData} title="Person" />
+						<PersonSlider subject="person" data={personData} title="Person" />
 					</div>
 				) : null}
 			</InnerWrapper>
 
 			<AnimatePresence>
 				{bigSearchMatch && !clickPerson ? (
-					<Modal allData={allSearchData} bigMatch={bigSearchMatch} Y={scrollY.get()} />
+					<ContentModal
+						allData={allSearchData}
+						bigMatch={bigSearchMatch}
+						Y={scrollY.get()}
+					/>
 				) : null}
 				{bigSearchMatch && clickPerson ? (
 					<PersonModal

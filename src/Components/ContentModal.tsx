@@ -102,7 +102,7 @@ interface ICast {
 	name: string
 }
 
-const Modal = ({ allData, bigMatch, Y }: IModalProps) => {
+const ContentModal = ({ allData, bigMatch, Y }: IModalProps) => {
 	const history = useHistory()
 	const { path } = useRouteMatch()
 	const casts: any = useRecoilValue(atomCasts)
@@ -171,4 +171,4 @@ const Modal = ({ allData, bigMatch, Y }: IModalProps) => {
 	)
 }
 
-export default Modal
+export default ContentModal

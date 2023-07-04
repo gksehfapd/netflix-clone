@@ -10,9 +10,9 @@ import styled from 'styled-components'
 import { makeImagePath } from '../utils'
 import { AnimatePresence, useScroll } from 'framer-motion'
 import { useRouteMatch } from 'react-router-dom'
-import SubjectCom from '../Components/SubjectCom'
+import ContentSlider from '../Components/ContentSlider'
 import { Helmet } from 'react-helmet-async'
-import Modal from '../Components/Modal'
+import ContentModal from '../Components/ContentModal'
 
 const Wrapper = styled.div`
 	background-color: black;
@@ -90,7 +90,7 @@ const Home = () => {
 					</Banner>
 
 					{nowPlayingData && !nowPlayingLoading ? (
-						<SubjectCom
+						<ContentSlider
 							subject="nowPlaying"
 							data={nowPlayingData}
 							title="Now Playing"
@@ -99,24 +99,24 @@ const Home = () => {
 						<Loader>Loading..</Loader>
 					)}
 					{topRatedData && !topRatedLoading ? (
-						<SubjectCom subject="topRated" data={topRatedData} title="Top Rated" />
+						<ContentSlider subject="topRated" data={topRatedData} title="Top Rated" />
 					) : (
 						<Loader>Loading..</Loader>
 					)}
 					{popularData && !popularLoading ? (
-						<SubjectCom subject="popular" data={popularData} title="Popular" />
+						<ContentSlider subject="popular" data={popularData} title="Popular" />
 					) : (
 						<Loader>Loading..</Loader>
 					)}
 					{upcomingData && !upcomingLoading ? (
-						<SubjectCom subject="upcoming" data={upcomingData} title="Upcoming" />
+						<ContentSlider subject="upcoming" data={upcomingData} title="Upcoming" />
 					) : (
 						<Loader>Loading..</Loader>
 					)}
 
 					<AnimatePresence>
 						{bigMovieMatch ? (
-							<Modal
+							<ContentModal
 								allData={allMovieData}
 								bigMatch={bigMovieMatch}
 								Y={scrollY.get()}

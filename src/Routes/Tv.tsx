@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { makeImagePath } from '../utils'
 import { AnimatePresence, useScroll } from 'framer-motion'
 import { useRouteMatch } from 'react-router-dom'
-import SubjectCom from '../Components/SubjectCom'
-import Modal from '../Components/Modal'
+import ContentSlider from '../Components/ContentSlider'
+import ContentModal from '../Components/ContentModal'
 import { Helmet } from 'react-helmet-async'
 
 const Wrapper = styled.div`
@@ -84,30 +84,34 @@ const Tv = () => {
 					</Banner>
 
 					{onAirTvData && !onAirTvLoading ? (
-						<SubjectCom subject="nowPlaying" data={onAirTvData} title="On The Air" />
+						<ContentSlider subject="nowPlaying" data={onAirTvData} title="On The Air" />
 					) : (
 						<Loader>Loading..</Loader>
 					)}
 					{topRatedTvData && !topRatedTvLoading ? (
-						<SubjectCom subject="upcoming" data={topRatedTvData} title="Top Rated" />
+						<ContentSlider subject="upcoming" data={topRatedTvData} title="Top Rated" />
 					) : (
 						<Loader>Loading..</Loader>
 					)}
 					{popularTvData && !popularTvLoading ? (
-						<SubjectCom subject="topRated" data={popularTvData} title="Popular" />
+						<ContentSlider subject="topRated" data={popularTvData} title="Popular" />
 					) : (
 						<Loader>Loading..</Loader>
 					)}
 
 					{airingTvData && !airingTvLoading ? (
-						<SubjectCom subject="popular" data={airingTvData} title="Airing Today" />
+						<ContentSlider subject="popular" data={airingTvData} title="Airing Today" />
 					) : (
 						<Loader>Loading..</Loader>
 					)}
 
 					<AnimatePresence>
 						{bigTvMatch ? (
-							<Modal allData={allTvData} bigMatch={bigTvMatch} Y={scrollY.get()} />
+							<ContentModal
+								allData={allTvData}
+								bigMatch={bigTvMatch}
+								Y={scrollY.get()}
+							/>
 						) : null}
 					</AnimatePresence>
 				</>
