@@ -1,11 +1,13 @@
 # Netflix-Clone
 
-React를 사용하여 작업해본 넷플릭스 클론입니다.
+React를 사용하여 작업해본 넷플릭스 클론 입니다.
 
 
 React의 전반적인 사용법을 공부하기 위하여 진행한 프로젝트 입니다.
 
 [github.io 바로가기↗](https://gksehfapd.github.io/netflix-clone/)
+
+
 
 ## 개선사항
 
@@ -18,8 +20,8 @@ React의 전반적인 사용법을 공부하기 위하여 진행한 프로젝트
 
 
 
-
 ## 프로젝트 구조
+
 ```
 src
 ├── Components/*   
