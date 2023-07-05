@@ -47,11 +47,11 @@ const Row = styled(motion.div)`
 	height: 40%;
 `
 
-const Box = styled(motion.div)<{ bgphoto: string }>`
+const Box = styled(motion.div)<{ photo: string }>`
 	height: 100%;
 	background-color: white;
 	font-size: 64px;
-	background-image: url(${(props) => props.bgphoto});
+	background-image: url(${(props) => props.photo});
 	background-size: cover;
 	background-position: center center;
 	cursor: pointer;
@@ -220,7 +220,7 @@ const ContentSlider = ({ subject, title, data }: IProps) => {
 									whileHover="hover"
 									initial="normal"
 									transition={{ type: 'tween' }}
-									bgphoto={makeImagePath(fetchData.poster_path)}
+									photo={makeImagePath(fetchData.poster_path)}
 									onClick={() => onBoxClicked(fetchData.id, `${subject}`)}
 									layoutId={`${subject}` + fetchData.id}
 								>

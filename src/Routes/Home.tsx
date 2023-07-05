@@ -20,14 +20,14 @@ const Wrapper = styled.div`
 	padding-bottom: 200px;
 `
 
-const Banner = styled.div<{ bgphoto: string }>`
+const Banner = styled.div<{ photo: string }>`
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	padding: 60px;
 	background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-		url(${(props) => props.bgphoto});
+		url(${(props) => props.photo});
 	background-size: cover;
 `
 
@@ -75,12 +75,12 @@ const Home = () => {
 				<title>Netflix | Movies</title>
 			</Helmet>
 			{nowPlayingLoading ? (
-				<Banner bgphoto="">
+				<Banner photo="">
 					<Loader />
 				</Banner>
 			) : (
 				<>
-					<Banner bgphoto={makeImagePath(nowPlayingData?.results[0].backdrop_path || '')}>
+					<Banner photo={makeImagePath(nowPlayingData?.results[0].backdrop_path || '')}>
 						<Title>{nowPlayingData?.results[0].title}</Title>
 						<Overview>{nowPlayingData?.results[0].overview}</Overview>
 					</Banner>

@@ -14,14 +14,14 @@ const Wrapper = styled.div`
 	padding-bottom: 200px;
 `
 
-const Banner = styled.div<{ bgphoto: string }>`
+const Banner = styled.div<{ photo: string }>`
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	padding: 60px;
 	background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-		url(${(props) => props.bgphoto});
+		url(${(props) => props.photo});
 	background-size: cover;
 `
 
@@ -72,7 +72,7 @@ const Tv = () => {
 				<Loader />
 			) : (
 				<>
-					<Banner bgphoto={makeImagePath(onAirTvData?.results[0].backdrop_path || '')}>
+					<Banner photo={makeImagePath(onAirTvData?.results[0].backdrop_path || '')}>
 						<Title>{onAirTvData?.results[0].name}</Title>
 						<Overview>{onAirTvData?.results[0].overview}</Overview>
 					</Banner>

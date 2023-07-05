@@ -47,11 +47,11 @@ const Row = styled(motion.div)`
 	height: 40%;
 `
 
-const Box = styled(motion.div)<{ bgphoto: string }>`
+const Box = styled(motion.div)<{ photo: string }>`
 	background-color: white;
 	height: 250px;
 	font-size: 64px;
-	background-image: url(${(props) => props.bgphoto});
+	background-image: url(${(props) => props.photo});
 	background-size: cover;
 	background-position: center center;
 	cursor: pointer;
@@ -217,7 +217,7 @@ const PersonSlider = ({ subject, title, data }: IProps) => {
 									whileHover="hover"
 									initial="normal"
 									transition={{ type: 'tween' }}
-									bgphoto={makeImagePath(fetchData.profile_path)}
+									photo={makeImagePath(fetchData.profile_path)}
 									onClick={() => onBoxClicked(fetchData.id, `${subject}`)}
 									layoutId={`${subject}` + fetchData.id}
 								>
