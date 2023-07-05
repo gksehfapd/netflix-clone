@@ -20,13 +20,6 @@ const Wrapper = styled.div`
 	padding-bottom: 200px;
 `
 
-const Loading = styled.div`
-	height: 20vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`
-
 const Banner = styled.div<{ bgphoto: string }>`
 	height: 100vh;
 	display: flex;
