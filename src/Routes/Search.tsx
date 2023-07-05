@@ -10,6 +10,7 @@ import PersonSlider from '../Components/PersonSlider'
 import { useEffect, useState } from 'react'
 import PersonModal from '../Components/PersonModal'
 import { Helmet } from 'react-helmet-async'
+import Loader from '../Components/Loader'
 
 const Wrapper = styled.div`
 	background-color: black;
@@ -22,13 +23,6 @@ const InnerWrapper = styled.div`
 const SearchKeyword = styled.h1`
 	font-size: 32px;
 	padding: 60px;
-`
-
-const Loader = styled.div`
-	height: 20vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 `
 
 const Search = () => {
@@ -74,7 +68,7 @@ const Search = () => {
 				<SearchKeyword>Search for '{keyword}'</SearchKeyword>
 
 				{isMovieLoading ? (
-					<Loader>Loading..</Loader>
+					<Loader />
 				) : movieData ? (
 					<div onClick={() => setClickPerson(false)}>
 						<ContentSlider subject="movieData" data={movieData} title="Movies" />
@@ -82,7 +76,7 @@ const Search = () => {
 				) : null}
 
 				{isTvLoading ? (
-					<Loader>Loading..</Loader>
+					<Loader />
 				) : tvData ? (
 					<div onClick={() => setClickPerson(false)}>
 						<ContentSlider subject="tvData" data={tvData} title="Tv Shows" />
@@ -90,7 +84,7 @@ const Search = () => {
 				) : null}
 
 				{isPersonLoading ? (
-					<Loader>Loading..</Loader>
+					<Loader />
 				) : personData ? (
 					<div onClick={() => setClickPerson(true)}>
 						<PersonSlider subject="person" data={personData} title="Person" />

@@ -13,13 +13,14 @@ import { useRouteMatch } from 'react-router-dom'
 import ContentSlider from '../Components/ContentSlider'
 import { Helmet } from 'react-helmet-async'
 import ContentModal from '../Components/ContentModal'
+import Loader from '../Components/Loader'
 
 const Wrapper = styled.div`
 	background-color: black;
 	padding-bottom: 200px;
 `
 
-const Loader = styled.div`
+const Loading = styled.div`
 	height: 20vh;
 	display: flex;
 	justify-content: center;
@@ -81,7 +82,9 @@ const Home = () => {
 				<title>Netflix | Movies</title>
 			</Helmet>
 			{nowPlayingLoading ? (
-				<Loader>Loading..</Loader>
+				<Banner bgphoto="">
+					<Loader />
+				</Banner>
 			) : (
 				<>
 					<Banner bgphoto={makeImagePath(nowPlayingData?.results[0].backdrop_path || '')}>
@@ -96,22 +99,22 @@ const Home = () => {
 							title="Now Playing"
 						/>
 					) : (
-						<Loader>Loading..</Loader>
+						<Loader />
 					)}
 					{topRatedData && !topRatedLoading ? (
 						<ContentSlider subject="topRated" data={topRatedData} title="Top Rated" />
 					) : (
-						<Loader>Loading..</Loader>
+						<Loader />
 					)}
 					{popularData && !popularLoading ? (
 						<ContentSlider subject="popular" data={popularData} title="Popular" />
 					) : (
-						<Loader>Loading..</Loader>
+						<Loader />
 					)}
 					{upcomingData && !upcomingLoading ? (
 						<ContentSlider subject="upcoming" data={upcomingData} title="Upcoming" />
 					) : (
-						<Loader>Loading..</Loader>
+						<Loader />
 					)}
 
 					<AnimatePresence>

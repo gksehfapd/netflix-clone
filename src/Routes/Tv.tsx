@@ -7,17 +7,11 @@ import { useRouteMatch } from 'react-router-dom'
 import ContentSlider from '../Components/ContentSlider'
 import ContentModal from '../Components/ContentModal'
 import { Helmet } from 'react-helmet-async'
+import Loader from '../Components/Loader'
 
 const Wrapper = styled.div`
 	background-color: black;
 	padding-bottom: 200px;
-`
-
-const Loader = styled.div`
-	height: 20vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 `
 
 const Banner = styled.div<{ bgphoto: string }>`
@@ -75,7 +69,7 @@ const Tv = () => {
 				<title>Netflix | TV</title>
 			</Helmet>
 			{onAirTvLoading ? (
-				<Loader>Loading..</Loader>
+				<Loader />
 			) : (
 				<>
 					<Banner bgphoto={makeImagePath(onAirTvData?.results[0].backdrop_path || '')}>
@@ -86,23 +80,23 @@ const Tv = () => {
 					{onAirTvData && !onAirTvLoading ? (
 						<ContentSlider subject="nowPlaying" data={onAirTvData} title="On The Air" />
 					) : (
-						<Loader>Loading..</Loader>
+						<Loader />
 					)}
 					{topRatedTvData && !topRatedTvLoading ? (
 						<ContentSlider subject="upcoming" data={topRatedTvData} title="Top Rated" />
 					) : (
-						<Loader>Loading..</Loader>
+						<Loader />
 					)}
 					{popularTvData && !popularTvLoading ? (
 						<ContentSlider subject="topRated" data={popularTvData} title="Popular" />
 					) : (
-						<Loader>Loading..</Loader>
+						<Loader />
 					)}
 
 					{airingTvData && !airingTvLoading ? (
 						<ContentSlider subject="popular" data={airingTvData} title="Airing Today" />
 					) : (
-						<Loader>Loading..</Loader>
+						<Loader />
 					)}
 
 					<AnimatePresence>
